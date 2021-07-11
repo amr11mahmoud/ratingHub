@@ -1425,6 +1425,9 @@ namespace Rating.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("DarkTheme")
+                        .HasColumnType("bit");
+
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
 
@@ -1457,6 +1460,9 @@ namespace Rating.Migrations
 
                     b.Property<bool>("IsTwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
@@ -1568,8 +1574,6 @@ namespace Rating.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Images");
                 });
@@ -1694,9 +1698,6 @@ namespace Rating.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -1710,6 +1711,9 @@ namespace Rating.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Images")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -1727,9 +1731,6 @@ namespace Rating.Migrations
                     b.Property<string>("LocalName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LocalReviews")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("LocalSpecifications")
                         .HasColumnType("nvarchar(max)");
 
@@ -1737,6 +1738,9 @@ namespace Rating.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductCategId")
@@ -1858,6 +1862,30 @@ namespace Rating.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductReviews");
+                });
+
+            modelBuilder.Entity("Rating.SouqLog.SouqLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Keyword")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SouqLogs");
                 });
 
             modelBuilder.Entity("Rating.Supplier.Supplier", b =>
@@ -2102,15 +2130,6 @@ namespace Rating.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
-            modelBuilder.Entity("Rating.Image.Image", b =>
-                {
-                    b.HasOne("Rating.Product.Product", null)
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Rating.MarketPlace.MarketPlace", b =>
                 {
                     b.HasOne("Rating.Location.Location", "Location")
@@ -2254,11 +2273,6 @@ namespace Rating.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
-                });
-
-            modelBuilder.Entity("Rating.Product.Product", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("Rating.ProductFeature.ProductFeature", b =>

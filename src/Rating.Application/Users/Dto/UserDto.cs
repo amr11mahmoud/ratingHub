@@ -19,22 +19,18 @@ namespace Rating.Users.Dto
         public string Name { get; set; }
 
         [Required]
-        [StringLength(AbpUserBase.MaxSurnameLength)]
-        public string Surname { get; set; }
-
-        [Required]
         [EmailAddress]
         [StringLength(AbpUserBase.MaxEmailAddressLength)]
         public string EmailAddress { get; set; }
 
         public bool IsActive { get; set; }
 
-        public string FullName { get; set; }
-
         public DateTime? LastLoginTime { get; set; }
 
         public DateTime CreationTime { get; set; }
 
         public string[] RoleNames { get; set; }
+        public bool DarkTheme { get; set; }
+        public string Language { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace Rating.Product
 {
     public class Product:FullAuditedEntity
     {
+        public string Price { get; set; }
         public string Name { get; set; }
         public string LocalName { get; set; }
         public string Description { get; set; }
@@ -17,8 +18,6 @@ namespace Rating.Product
         public string Specifications { get; set; }
         public string LocalSpecifications { get; set; }
         public string Reviews { get; set; }
-        public string Comments { get; set; }
-        public string LocalReviews { get; set; }
         [ForeignKey("ProductCategory")]
         public int ProductCategId { get; set; }
         [ForeignKey("MarketPlace")]
@@ -28,8 +27,9 @@ namespace Rating.Product
         public string Url { get; set; }
         public float Rating { get; set; }
         public int ReviewsCount { get; set; }
+        public string Images { get; set; }
+
         public MarketPlace.MarketPlace  MarketPlace { get; set; }
-        public ICollection<Image.Image> Images { get; set; }
         public Supplier.Supplier Supplier { get; set; }
         public ProductCategory.ProductCategory ProductCategory { get; set; }
 

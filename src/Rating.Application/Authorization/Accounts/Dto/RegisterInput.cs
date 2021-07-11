@@ -14,10 +14,6 @@ namespace Rating.Authorization.Accounts.Dto
         public string Name { get; set; }
 
         [Required]
-        [StringLength(AbpUserBase.MaxSurnameLength)]
-        public string Surname { get; set; }
-
-        [Required]
         [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }
 
@@ -30,9 +26,9 @@ namespace Rating.Authorization.Accounts.Dto
         [StringLength(AbpUserBase.MaxPlainPasswordLength)]
         [DisableAuditing]
         public string Password { get; set; }
+        public bool DarkTheme { get; set; }
+        public string Language { get; set; }
 
-        [DisableAuditing]
-        public string CaptchaResponse { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

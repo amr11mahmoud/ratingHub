@@ -36,7 +36,7 @@ namespace Rating
 
         protected virtual Task<Tenant> GetCurrentTenantAsync()
         {
-            return TenantManager.GetByIdAsync(AbpSession.GetTenantId());
+            return TenantManager.GetByIdAsync(1);
         }
 
         protected virtual void CheckErrors(IdentityResult identityResult)

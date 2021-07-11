@@ -19,6 +19,7 @@ namespace Rating.Product.Dto
         public string Specifications { get; set; }
         public string LocalSpecifications { get; set; }
         public string Reviews { get; set; }
+        public float Price { get; set; }
 
         [ForeignKey("ProductCategory")]
         public int ProductCategId { get; set; }

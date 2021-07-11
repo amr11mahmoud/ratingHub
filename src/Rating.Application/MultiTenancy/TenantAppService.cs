@@ -66,10 +66,10 @@ namespace Rating.MultiTenancy
             _abpZeroDbMigrator.CreateOrMigrateForTenant(tenant);
 
             // We are working entities of new tenant, so changing tenant filter
-            using (CurrentUnitOfWork.SetTenantId(tenant.Id))
+            using (CurrentUnitOfWork.SetTenantId(1))
             {
                 // Create static roles for new tenant
-                CheckErrors(await _roleManager.CreateStaticRoles(tenant.Id));
+                CheckErrors(await _roleManager.CreateStaticRoles(1));
 
                 await CurrentUnitOfWork.SaveChangesAsync(); // To get static role ids
 

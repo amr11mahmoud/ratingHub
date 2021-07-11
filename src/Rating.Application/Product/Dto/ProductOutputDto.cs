@@ -19,8 +19,8 @@ namespace Rating.Product.Dto
         public string Specifications { get; set; }
         public string LocalSpecifications { get; set; }
         public string Reviews { get; set; }
-        public string Comments { get; set; }
-        public string LocalReviews { get; set; }
+        public string Price { get; set; }
+
         [ForeignKey("ProductCategory")]
         public int ProductCategId { get; set; }
         [ForeignKey("MarketPlace")]
@@ -31,7 +31,7 @@ namespace Rating.Product.Dto
         public float Rating { get; set; }
         public int ReviewsCount { get; set; }
         public MarketPlace.MarketPlace MarketPlace { get; set; }
-        public ICollection<Image.Image> Images { get; set; }
+        public string Images { get; set; }
         public Supplier.Supplier Supplier { get; set; }
         public ProductCategory.ProductCategory ProductCategory { get; set; }
     }

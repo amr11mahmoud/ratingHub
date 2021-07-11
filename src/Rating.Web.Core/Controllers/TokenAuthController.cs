@@ -137,7 +137,7 @@ namespace Rating.Controllers
         {
             var user = await _userRegistrationManager.RegisterAsync(
                 externalUser.Name,
-                externalUser.Surname,
+                "surname",
                 externalUser.EmailAddress,
                 externalUser.EmailAddress,
                 Authorization.Users.User.CreateRandomPassword(),
@@ -150,7 +150,7 @@ namespace Rating.Controllers
                 {
                     LoginProvider = externalUser.Provider,
                     ProviderKey = externalUser.ProviderKey,
-                    TenantId = user.TenantId
+                    TenantId = 1
                 }
             };
 
@@ -174,7 +174,7 @@ namespace Rating.Controllers
         {
             if (!AbpSession.TenantId.HasValue)
             {
-                return null;
+                return "Default";
             }
 
             return _tenantCache.GetOrNull(AbpSession.TenantId.Value)?.TenancyName;

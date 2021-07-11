@@ -13,7 +13,7 @@ namespace Rating.Authorization.Accounts.Dto
         public IsTenantAvailableOutput(TenantAvailabilityState state, int? tenantId = null)
         {
             State = state;
-            TenantId = tenantId;
+            TenantId = 1;
         }
     }
 }
