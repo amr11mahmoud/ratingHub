@@ -25,7 +25,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Rating.Users
 {
-    [AbpAuthorize(PermissionNames.Pages_Users)]
     public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedUserResultRequestDto, CreateUserDto, UserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
@@ -74,6 +73,11 @@ namespace Rating.Users
             CurrentUnitOfWork.SaveChanges();
 
             return MapToEntityDto(user);
+        }
+
+        public override Task<UserDto> GetAsync(EntityDto<long> input)
+        {
+            return base.GetAsync(input);
         }
 
         public override async Task<UserDto> UpdateAsync(UserDto input)

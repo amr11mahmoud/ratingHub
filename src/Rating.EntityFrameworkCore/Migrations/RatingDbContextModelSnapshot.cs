@@ -1578,6 +1578,30 @@ namespace Rating.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("Rating.JumiaLog.JumiaLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Keyword")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("JumiaLogs");
+                });
+
             modelBuilder.Entity("Rating.Location.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -1850,16 +1874,23 @@ namespace Rating.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
+                    b.Property<float>("Rate")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Review")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ProductReviews");
                 });
@@ -2204,6 +2235,23 @@ namespace Rating.Migrations
                     b.Navigation("ProductFeature");
                 });
 
+            modelBuilder.Entity("Rating.ProductReview.ProductReview", b =>
+                {
+                    b.HasOne("Rating.Product.Product", null)
+                        .WithMany("OnSiteReviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Rating.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
                 {
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
@@ -2273,6 +2321,11 @@ namespace Rating.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("Rating.Product.Product", b =>
+                {
+                    b.Navigation("OnSiteReviews");
                 });
 
             modelBuilder.Entity("Rating.ProductFeature.ProductFeature", b =>

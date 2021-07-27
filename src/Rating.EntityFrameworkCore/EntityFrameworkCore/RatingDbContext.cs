@@ -21,6 +21,7 @@ namespace Rating.EntityFrameworkCore
         public DbSet<ProductFeature.ProductFeature> ProductFeatures { get; set; }
         public DbSet<ProductReview.ProductReview> ProductReviews { get; set; }
         public DbSet<SouqLog.SouqLog> SouqLogs { get; set; }
+        public DbSet<JumiaLog.JumiaLog> JumiaLogs { get; set; }
 
         public RatingDbContext(DbContextOptions<RatingDbContext> options)
             : base(options)

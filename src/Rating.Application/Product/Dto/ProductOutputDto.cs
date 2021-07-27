@@ -34,5 +34,7 @@ namespace Rating.Product.Dto
         public string Images { get; set; }
         public Supplier.Supplier Supplier { get; set; }
         public ProductCategory.ProductCategory ProductCategory { get; set; }
+        public ICollection<ProductReview.ProductReview> OnSiteReviews { get; set; }
+
     }
 }

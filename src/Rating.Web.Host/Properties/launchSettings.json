@@ -3,8 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://amr11mahmoud-001-site1.etempurl.com/",
-      //"applicationUrl": "http://localhost:21021/",
+      "applicationUrl": "http://localhost:21021/",
       "sslPort": 0
     }
   },
@@ -19,11 +18,11 @@
     "Rating.Web.Host": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://amr11mahmoud-001-site1.etempurl.com",
+      "launchUrl": "http://localhost:21021",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://amr11mahmoud-001-site1.etempurl.com/"
+      "applicationUrl": "http://localhost:21021/"
     }
   }
 }

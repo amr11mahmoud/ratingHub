@@ -32,6 +32,7 @@ namespace Rating.Product
         public MarketPlace.MarketPlace  MarketPlace { get; set; }
         public Supplier.Supplier Supplier { get; set; }
         public ProductCategory.ProductCategory ProductCategory { get; set; }
+        public ICollection<ProductReview.ProductReview> OnSiteReviews { get; set; }
 
     }
 }

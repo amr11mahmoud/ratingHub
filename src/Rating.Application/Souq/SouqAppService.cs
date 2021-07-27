@@ -17,6 +17,7 @@ using System.ComponentModel;
 using Abp.Domain.Uow;
 using Abp.UI;
 using Abp.Application.Services.Dto;
+using NHtmlUnit;
 
 namespace Rating.Scrapper
 {
@@ -28,6 +29,7 @@ namespace Rating.Scrapper
         private IRepository<MarketPlace.MarketPlace> _marketPlaceRepo;
         private IRepository<SouqLog.SouqLog> _souqLogRepo;
         private ProductAppService _productAppService;
+
 
         public SouqAppService(IRepository<Product.Product> productRepo, 
             IRepository<Supplier.Supplier> supplierRepo,
@@ -75,13 +77,23 @@ namespace Rating.Scrapper
 
         public Task<List<Product.Product>> ScrapeSouqEgypt(ScrapSouqDto input)
         {
-            string baseUrl = "https://egypt.souq.com/eg-en";
-            return GetSouq(input, baseUrl);
+            try
+            {
+                string baseUrl = "https://egypt.souq.com/eg-en";
+                return GetSouq(input, baseUrl);
+            }
+            catch (Exception x)
+            {
+
+                throw x;
+            }
+
         }
 
         private async Task<List<Product.Product>> GetSouq(ScrapSouqDto input, string baseUrl)
         {
             HtmlWeb web = new HtmlWeb();
+            //WebClient webClient = new WebClient();
 
             List<string[]> productUrls = new List<string[]>();
             List<Product.Product> products = new List<Product.Product>();
@@ -95,6 +107,7 @@ namespace Rating.Scrapper
                     string Url = baseUrl + "/" + input.KeyWord + "/s/?section= " + j + "&page=" + i;
 
                     HtmlDocument doc = web.Load(Url);
+                    //IPage doc2 = webClient.GetPage(Url);
                     GetProductsUrlsSouq(doc, productUrls, id);
                 }
             }
@@ -256,9 +269,22 @@ namespace Rating.Scrapper
 
             if (productReviewsCount != null)
             {
-                string productReviews = productReviewsCount.InnerText;
-                string reviewsCount = Regex.Match(productReviews, @"\d+").Value;
-                count = Int32.Parse(reviewsCount);
+                try
+                {
+                    string productReviews = productReviewsCount.InnerText;
+                    if (productReviews.Any(char.IsDigit))
+                    {
+                        string reviewsCount = Regex.Match(productReviews, @"\d+").Value;
+                        count = Int32.Parse(reviewsCount);
+                    }
+                    
+                }
+                catch (Exception x)
+                {
+
+                    throw x;
+                }
+ 
             }
 
             return count;
@@ -297,7 +323,14 @@ namespace Rating.Scrapper
                     }
                     else
                     {
-                        productSpecifications.Append("'" + node.InnerText.ToString() + "'" + ",");
+                        if (node.InnerText.ToString().Length > 0)
+                        {
+                            productSpecifications.Append("'" + node.InnerText.ToString() + "'" + ",");
+                        }
+                        else
+                        {
+                            productSpecifications.Append("'" + "Empty" + "'" + ",");
+                        }
                     }
                 }
             }
@@ -468,9 +501,33 @@ namespace Rating.Scrapper
 
             foreach (var node in allProductsNodes)
             {
-                var url = node.SelectSingleNode("div[2]/a").GetAttributeValue("href", string.Empty);
-                var image = node.SelectSingleNode("div/a/img").GetAttributeValue("data-src", string.Empty);
-                var imgSrcXl = image.Replace("item_L_", "item_XL_");
+                var urlNode = node.SelectSingleNode("div[2]/a");
+                string url = "";
+                if (urlNode != null)
+                {
+                    url = urlNode.GetAttributeValue("href", string.Empty);
+                }
+                else
+                {
+                    url = node.SelectSingleNode("div/div[2]/ul/li[1]/h6/a").GetAttributeValue("href", string.Empty);
+                }
+
+                var imageNode = node.SelectSingleNode("div/a/img");
+                string image = "";
+                var imgSrcXl = "";
+
+                if (imageNode != null)
+                {
+
+                    image = imageNode.GetAttributeValue("data-src", string.Empty);
+                    imgSrcXl = image.Replace("item_L_", "item_XL_");
+                }
+                else
+                {
+                    image = node.SelectSingleNode("div/div/div/a").GetAttributeValue("data-img", string.Empty);
+                    imgSrcXl = image.Replace("item_L_", "item_XL_");
+                }
+
 
                 string[] urlAndImage = { url, imgSrcXl };
                 Urls.Add(urlAndImage);
